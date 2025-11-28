@@ -7,10 +7,15 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { BeatLoader } from "react-spinners"
 import { Error } from "@/components/common"
+import { useFetch } from "@/hooks/use-fetch"
+import { loginUser } from "@/api/auth.api"
+import { useEffect } from "react"
+import { useNavigate, useSearchParams } from "react-router"
+import { toast } from "sonner"
 
 export const LoginForm = () => {
   const {
-    register, formState: { isSubmitting, errors }, handleSubmit
+    register, formState: { isSubmitting, errors }, handleSubmit, getValues
   } = useForm({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
@@ -20,8 +25,25 @@ export const LoginForm = () => {
     reValidateMode: "onChange",
   })
 
+  const [search] = useSearchParams()
+  const searchUrl = search.get("createNew")
+
+  const navigate = useNavigate()
+
+  const { fn: fnLoginUser, error, data } = useFetch(loginUser, getValues())
+
+  useEffect(() => {
+    if (error !== null) {
+      toast.error(error.message)
+    }
+
+    if (error === null && data) {
+      navigate(`/dashboard${searchUrl ? `?${searchUrl}` : ''}`)
+    }
+  }, [error, data])
+
   const handleUserLogin = async (data) => {
-    console.log(data);
+    await fnLoginUser()
   }
 
   return <Card className="w-full">
