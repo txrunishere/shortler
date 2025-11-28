@@ -1,7 +1,16 @@
+@font-face {
+  font-family: Lato;
+  src: url("../src/assets/fonts/Lato-Regular.ttf");
+}
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-lato: Lato, "sans-serif";
+}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
