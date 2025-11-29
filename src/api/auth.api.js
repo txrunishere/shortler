@@ -48,7 +48,19 @@ const uploadProfilePicture = async ({ filePath, file }) => {
   return data
 }
 
+const logoutUser = async () => {
+  const { error } = await supabase.auth.signOut({
+    scope: 'local'
+  })
+
+  if (error) {
+    throw new Error(error.message)
+  }
+  return true
+}
+
 export {
   loginUser,
-  signupUser
+  signupUser,
+  logoutUser
 }
