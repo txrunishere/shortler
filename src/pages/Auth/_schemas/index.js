@@ -1,5 +1,5 @@
 import { loginSchema } from "./login.schema.js";
-import { } from "./signup.schema.js";
+import { signupSchema } from "./signup.schema.js";
 
-export { loginSchema }
+export { loginSchema, signupSchema }
 

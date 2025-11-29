@@ -1,5 +1,10 @@
 import { z } from "zod";
 
+const hasLowercase = /[a-z]/;
+const hasUppercase = /[A-Z]/;
+const hasNumber = /\d/;
+const hasSpecialChar = /[!@#$%^&*()_\-+={}[\]|\\:;"'<>,.?/~`₹]/;
+
 export const signupSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters."),
   email: z

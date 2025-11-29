@@ -11,11 +11,12 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Link2, LogOut } from "lucide-react";
+import { useUser } from "@/app/providers/user-provider";
 
 export const Header = () => {
   const navigate = useNavigate();
   const handleNavigateToAuth = () => navigate("/auth");
-  const user = true;
+  const { isAuthenticated, user } = useUser()
 
   return (
     <nav className="flex w-full items-center justify-between py-6 sm:px-10 sm:py-2">
@@ -29,20 +30,20 @@ export const Header = () => {
         </Link>
       </div>
       <div>
-        {!user ? (
-          <Button size={"sm"} onClick={handleNavigateToAuth}>
-            Login
-          </Button>
-        ) : (
+        {isAuthenticated ? (
           <DropdownMenu>
             <DropdownMenuTrigger>
               <Avatar className={"cursor-pointer sm:size-10"}>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src={user.user_metadata.profilePicture} />
+                <AvatarFallback>
+                  {
+                    user.user_metadata.name.slice(0, 2).toUpperCase()
+                  }
+                </AvatarFallback>
               </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuLabel>Tarun Soni</DropdownMenuLabel>
+              <DropdownMenuLabel>{user.user_metadata.name}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <Link2 /> My Links
@@ -53,6 +54,10 @@ export const Header = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+        ) : (
+          <Button size={"sm"} onClick={handleNavigateToAuth}>
+            Login
+          </Button>
         )}
       </div>
     </nav>

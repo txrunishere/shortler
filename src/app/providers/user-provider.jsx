@@ -8,6 +8,7 @@ export const UserContextProvider = ({ children }) => {
   const { data: user, fn: fnFetchUser, loading: userLoading } = useFetch(getCurrentUser)
 
   const isAuthenticated = user?.role === 'authenticated'
+  console.log({isAuthenticated, user});
 
   useEffect(() => {
     fnFetchUser()
@@ -23,3 +24,4 @@ export const UserContextProvider = ({ children }) => {
 export const useUser = () => {
   return useContext(UserContext)
 }
+

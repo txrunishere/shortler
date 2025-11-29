@@ -15,7 +15,7 @@ import { toast } from "sonner"
 
 export const LoginForm = () => {
   const {
-    register, formState: { isSubmitting, errors }, handleSubmit, getValues
+    register, formState: { isSubmitting, errors }, handleSubmit
   } = useForm({
     resolver: zodResolver(loginSchema),
     mode: "onChange",
@@ -30,7 +30,7 @@ export const LoginForm = () => {
 
   const navigate = useNavigate()
 
-  const { fn: fnLoginUser, error, data } = useFetch(loginUser, getValues())
+  const { fn: fnLoginUser, error, data } = useFetch(loginUser)
 
   useEffect(() => {
     if (error !== null) {
@@ -43,7 +43,7 @@ export const LoginForm = () => {
   }, [error, data])
 
   const handleUserLogin = async (data) => {
-    await fnLoginUser()
+    await fnLoginUser(data)
   }
 
   return <Card className="w-full">

@@ -7,9 +7,7 @@ export const AppLayout = () => {
     <main className="container mx-auto px-4">
       <Header />
       <div className="py-5 sm:py-10">
-        <UserContextProvider>
-          <Outlet />
-        </UserContextProvider>
+        <Outlet />
       </div>
     </main>
   );

@@ -1,9 +1,19 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useSearchParams } from "react-router"
+import { useNavigate, useSearchParams } from "react-router"
 import { LoginForm, SignUpForm } from "./_components"
+import { useUser } from "@/app/providers/user-provider"
+import { useEffect } from "react"
 
 export const Auth = () => {
   const [search] = useSearchParams()
+  const { isAuthenticated } = useUser()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard')
+    }
+  }, [isAuthenticated])
 
   return <div className="flex flex-col items-center justify-center gap-6 md:gap-10">
     <section>
@@ -14,7 +24,7 @@ export const Auth = () => {
       </h2>
     </section>
     <div className="">
-      <Tabs defaultValue="login" className="sm:w-[400px]">
+      <Tabs defaultValue="login" className="w-[300px] sm:w-[400px]">
         <TabsList className={'grid grid-cols-2 w-full'}>
           <TabsTrigger value="login">Login</TabsTrigger>
           <TabsTrigger value="signup">SignUp</TabsTrigger>
