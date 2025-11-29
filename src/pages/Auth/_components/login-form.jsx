@@ -12,6 +12,7 @@ import { loginUser } from "@/api/auth.api"
 import { useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router"
 import { toast } from "sonner"
+import { useUser } from "@/app/providers/user-provider"
 
 export const LoginForm = () => {
   const {
@@ -30,17 +31,19 @@ export const LoginForm = () => {
 
   const navigate = useNavigate()
 
-  const { fn: fnLoginUser, error, data } = useFetch(loginUser)
+  const { fn: fnLoginUser, error, data, loading } = useFetch(loginUser)
+  const { fnFetchUser } = useUser()
 
   useEffect(() => {
     if (error !== null) {
       toast.error(error.message)
     }
 
-    if (error === null && data) {
-      navigate(`/dashboard${searchUrl ? `?${searchUrl}` : ''}`)
+    if (error === null && data && !loading) {
+      fnFetchUser()
+      navigate(`/dashboard${searchUrl ? `?createNew=${searchUrl}` : ''}`)
     }
-  }, [error, data])
+  }, [error, data, loading])
 
   const handleUserLogin = async (data) => {
     await fnLoginUser(data)

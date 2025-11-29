@@ -9,6 +9,8 @@ import { Error } from "@/components/common"
 import { BeatLoader } from "react-spinners"
 import { useFetch } from "@/hooks/use-fetch"
 import { signupUser } from "@/api/auth.api"
+import { useEffect } from "react"
+import { toast } from "sonner"
 
 export const SignUpForm = () => {
   const { register, formState: { errors, isSubmitting }, handleSubmit, setValue } = useForm({
@@ -23,7 +25,13 @@ export const SignUpForm = () => {
     reValidateMode: "onChange",
   })
 
-  const { fn: fnSignupUser } = useFetch(signupUser)
+  const { fn: fnSignupUser, error } = useFetch(signupUser)
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message)
+    }
+  }, [error])
 
   const handleProfilePictureChange = (e) => {
     if (!e.target.files[0]) return

@@ -6,20 +6,21 @@ import { useEffect } from "react"
 
 export const Auth = () => {
   const [search] = useSearchParams()
-  const { isAuthenticated } = useUser()
+  const url = search?.get('createNew')
+  const { isAuthenticated, userLoading } = useUser()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard')
+    if (isAuthenticated && !userLoading) {
+      navigate(`/dashboard${url ? `?createNew=${url}` : ''}`)
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, userLoading])
 
   return <div className="flex flex-col items-center justify-center gap-6 md:gap-10">
     <section>
       <h2 className="font-lato text-center text-2xl font-extrabold sm:text-4xl sm:leading-20 lg:text-5xl">
         {
-          search.get("createNew") ? "Hold up! Let's login first..." : "Login / Signup"
+          url ? "Hold up! Let's login first..." : "Login / Signup"
         }
       </h2>
     </section>
