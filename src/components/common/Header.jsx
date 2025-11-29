@@ -58,7 +58,9 @@ export const Header = () => {
                 <DropdownMenuLabel>{user.user_metadata.name}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Link2 /> <span>My Links</span>
+                  <Link className="flex items-center gap-2" to={'/dashboard'}>
+                    <Link2 /> <span>My Links</span>
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem variant="destructive">
                   <LogOut />
