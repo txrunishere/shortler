@@ -9,6 +9,8 @@ import { useFetch } from "@/hooks/use-fetch"
 import { Filter } from "lucide-react";
 import { useEffect } from "react";
 import { LinkCard } from "./_components/LinkCard";
+import { CreateUrlModel } from "./_components/create-url-model";
+import QRCode from "react-qrcode-logo";
 
 export const Dashboard = () => {
   const { fn: fnGetUrls, data: urls, loading: urlLoading, error: urlsError } = useFetch(getUrlsByUserId)
@@ -57,7 +59,8 @@ export const Dashboard = () => {
 
         <div className="flex items-center justify-between">
           <h1 className="font-semibold sm:text-3xl text-xl font-lato">My Links</h1>
-          <Button size={'sm'}>Create Link</Button>
+          {/* <Button size={'sm'}>Create Link</Button> */}
+          <CreateUrlModel fetchUrls={fnGetUrls} />
         </div>
 
         <div>
