@@ -16,16 +16,19 @@ import { Error } from "@/components/common";
 import { useFetch } from "@/hooks/use-fetch";
 import { createUrl } from "@/api/url.api";
 import { useSearchParams } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "@/app/providers/user-provider";
 import { BeatLoader } from "react-spinners";
 
 export const CreateUrlModel = ({ fetchUrls }) => {
+  const [isModelOpen, setIsModelOpen] = useState(false);
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm({
     resolver: zodResolver(urlSchema),
     defaultValues: {
@@ -44,6 +47,7 @@ export const CreateUrlModel = ({ fetchUrls }) => {
   useEffect(() => {
     if (longUrl) {
       setValue("url", longUrl);
+      setIsModelOpen(true);
     } else {
       setValue("url", "");
     }
@@ -58,17 +62,25 @@ export const CreateUrlModel = ({ fetchUrls }) => {
       customUrl: data.custom_url,
       user_id: user?.id,
     });
+    reset();
+    setIsModelOpen(false);
     await fetchUrls({ user_id: user?.id });
   };
 
   return (
     <Dialog
-      defaultOpen={longUrl}
+      open={isModelOpen}
       onOpenChange={(v) => {
-        if (!v) setSearch({});
+        if (!v) {
+          setSearch({});
+          setIsModelOpen(false);
+        }
       }}
     >
-      <DialogTrigger className="bg-primary text-primary-foreground hover:bg-primary/90 font-lato rounded-lg px-2 py-1">
+      <DialogTrigger
+        onClick={() => setIsModelOpen(true)}
+        className="bg-primary text-primary-foreground hover:bg-primary/90 font-lato rounded-lg px-2 py-1"
+      >
         Create Link
       </DialogTrigger>
 
