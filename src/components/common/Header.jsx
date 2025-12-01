@@ -15,19 +15,24 @@ import { useUser } from "@/app/providers/user-provider";
 import { logoutUser } from "@/api/auth.api";
 import { useFetch } from "@/hooks/use-fetch";
 import { Loader } from ".";
+import { useState } from "react";
 
 export const Header = () => {
   const navigate = useNavigate();
   const handleNavigateToAuth = () => navigate("/auth");
   const { isAuthenticated, user, fnFetchUser } = useUser();
+  const [logoutLoading, setLogoutLoading] = useState(false);
 
   const { fn: fnLogoutUser, loading } = useFetch(logoutUser);
 
   const handleLogoutUser = async () => {
-    fnLogoutUser().then(() => {
-      fnFetchUser();
-      navigate("/auth");
-    });
+    setLogoutLoading(true);
+    fnLogoutUser()
+      .then(() => {
+        fnFetchUser();
+        navigate("/auth");
+      })
+      .finally(() => setLogoutLoading(false));
   };
 
   return (
@@ -77,7 +82,7 @@ export const Header = () => {
           )}
         </div>
       </nav>
-      {loading && <Loader />}
+      {logoutLoading && <Loader />}
     </>
   );
 };

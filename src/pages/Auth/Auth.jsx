@@ -14,7 +14,7 @@ export const Auth = () => {
     if (!userLoading && isAuthenticated) {
       navigate(`/dashboard${url ? `?createNew=${url}` : ""}`);
     }
-  }, [isAuthenticated, userLoading, url]);
+  }, [isAuthenticated, userLoading, url, navigate]);
 
   return (
     <div className="flex flex-col items-center justify-center gap-6 md:gap-10">

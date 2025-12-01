@@ -26,7 +26,7 @@ export const LinkCard = ({ url, fetchUrls }) => {
   return (
     <>
       <div>
-        {deleteLoading && (
+        {!deleteLoading && (
           <BarLoader
             color="white"
             width={"98%"}
@@ -43,14 +43,9 @@ export const LinkCard = ({ url, fetchUrls }) => {
               <span className="text-2xl leading-snug font-bold sm:text-3xl">
                 {url.title}
               </span>
-              <span className="text-xl font-semibold break-all text-blue-500 hover:underline sm:text-2xl">
-                <a
-                  target="_blank"
-                  href={url.custom_url ? url.custom_url : url.short_url}
-                >
-                  {config.FRONTEND_URL}/
-                  {url.custom_url ? url.custom_url : url.short_url}
-                </a>
+              <span className="text-xl font-semibold break-all text-blue-500 sm:text-2xl">
+                {config.FRONTEND_URL}/
+                {url.custom_url ? url.custom_url : url.short_url}
               </span>
               <span className="text-muted-foreground flex items-center gap-2 text-sm break-all sm:text-lg">
                 <Link size={18} />
@@ -79,7 +74,7 @@ export const LinkCard = ({ url, fetchUrls }) => {
               onClick={handleDeleteUrl}
               variant="ghost"
               size="icon"
-              disabled={deleteLoading}
+              disabled={!deleteLoading}
             >
               <Trash />
             </Button>

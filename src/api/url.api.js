@@ -43,4 +43,16 @@ async function createUrl({ title, longUrl, customUrl, user_id }) {
   return data;
 }
 
-export { getUrlsByUserId, deleteUrl, createUrl };
+const redirectToWebsite = async ({ short_url }) => {
+  const { data, error } = await supabase
+    .from("urls")
+    .select("original_url")
+    .or(`short_url.eq.${short_url}, custom_url.eq.${short_url}`)
+    .maybeSingle();
+
+  if (error) throw new Error(error.message);
+
+  return data;
+};
+
+export { getUrlsByUserId, deleteUrl, createUrl, redirectToWebsite };
