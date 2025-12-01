@@ -11,7 +11,7 @@ import { useFetch } from "@/hooks/use-fetch";
 import config from "@/lib/config";
 import { Copy, Link, Trash } from "lucide-react";
 import QRCode from "react-qrcode-logo";
-import { BarLoader, BeatLoader } from "react-spinners";
+import { BarLoader } from "react-spinners";
 
 export const LinkCard = ({ url, fetchUrls }) => {
   const { user } = useUser();
@@ -46,10 +46,10 @@ export const LinkCard = ({ url, fetchUrls }) => {
               <span className="text-xl font-semibold break-all text-blue-500 hover:underline sm:text-2xl">
                 <a
                   target="_blank"
-                  href={url.short_url ? url.short_url : url.custom_url}
+                  href={url.custom_url ? url.custom_url : url.short_url}
                 >
                   {config.FRONTEND_URL}/
-                  {url.short_url ? url.short_url : url.custom_url}
+                  {url.custom_url ? url.custom_url : url.short_url}
                 </a>
               </span>
               <span className="text-muted-foreground flex items-center gap-2 text-sm break-all sm:text-lg">
@@ -69,7 +69,7 @@ export const LinkCard = ({ url, fetchUrls }) => {
               size="icon"
               onClick={() =>
                 navigator.clipboard.writeText(`
-            ${config.FRONTEND_URL}/${url.short_url ? url.short_url : url.custom_url}
+            ${config.FRONTEND_URL}/${url.custom_url ? url.custom_url : url.short_url}
           `)
               }
             >

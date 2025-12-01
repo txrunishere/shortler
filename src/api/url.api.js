@@ -1,21 +1,23 @@
-import config from "@/lib/config"
-import supabase from "@/lib/supabase"
+import supabase from "@/lib/supabase";
 
 const getUrlsByUserId = async ({ user_id }) => {
-  const { data, error } = await supabase.from('urls').select("*").eq("user_id", user_id)
+  const { data, error } = await supabase
+    .from("urls")
+    .select("*")
+    .eq("user_id", user_id);
 
-  if (error) throw new Error(error.message)
+  if (error) throw new Error(error.message);
 
-  return data
-}
+  return data;
+};
 
 const deleteUrl = async ({ url_id }) => {
-  const { data, error } = await supabase.from("urls").delete().eq("id", url_id)
+  const { data, error } = await supabase.from("urls").delete().eq("id", url_id);
 
-  if (error) throw new Error(error.message)
+  if (error) throw new Error(error.message);
 
-  return data
-}
+  return data;
+};
 
 async function createUrl({ title, longUrl, customUrl, user_id }) {
   const short_url = Math.random().toString(36).substring(2, 8);
@@ -31,7 +33,7 @@ async function createUrl({ title, longUrl, customUrl, user_id }) {
         short_url,
       },
     ])
-    .select('*');
+    .select("*");
 
   if (error) {
     console.error(error);
@@ -41,6 +43,4 @@ async function createUrl({ title, longUrl, customUrl, user_id }) {
   return data;
 }
 
-export {
-  getUrlsByUserId, deleteUrl, createUrl
-}
+export { getUrlsByUserId, deleteUrl, createUrl };

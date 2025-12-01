@@ -19,15 +19,16 @@ import { Loader } from ".";
 export const Header = () => {
   const navigate = useNavigate();
   const handleNavigateToAuth = () => navigate("/auth");
-  const { isAuthenticated, user, fnFetchUser } = useUser()
-  const { fn: fnLogoutUser, loading } = useFetch(logoutUser)
+  const { isAuthenticated, user, fnFetchUser } = useUser();
+
+  const { fn: fnLogoutUser, loading } = useFetch(logoutUser);
 
   const handleLogoutUser = async () => {
     fnLogoutUser().then(() => {
-      fnFetchUser()
-      navigate('/auth')
-    })
-  }
+      fnFetchUser();
+      navigate("/auth");
+    });
+  };
 
   return (
     <>
@@ -46,11 +47,12 @@ export const Header = () => {
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar className={"cursor-pointer sm:size-10"}>
-                  <AvatarImage className={'object-contain'} src={user.user_metadata.profilePicture} />
+                  <AvatarImage
+                    className={"object-contain"}
+                    src={user.user_metadata.profilePicture}
+                  />
                   <AvatarFallback>
-                    {
-                      user.user_metadata.name.slice(0, 2).toUpperCase()
-                    }
+                    {user.user_metadata.name.slice(0, 2).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -58,7 +60,7 @@ export const Header = () => {
                 <DropdownMenuLabel>{user.user_metadata.name}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Link className="flex items-center gap-2" to={'/dashboard'}>
+                  <Link className="flex items-center gap-2" to={"/dashboard"}>
                     <Link2 /> <span>My Links</span>
                   </Link>
                 </DropdownMenuItem>
